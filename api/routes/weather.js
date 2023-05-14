@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const request = require("request");
+const cache = require("../../routeCache");
 
 const apiKey = "a4b77319ccf64ed2b3885048c6ba4075";
 
-router.get("/current", (req, res, next) => {
+router.get("/current", cache(10), (req, res, next) => {
     const city = req.body.city;
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
     request(url, function (err, response, body) {
@@ -35,7 +36,9 @@ router.get("/current", (req, res, next) => {
                     pressure: weather.main.pressure,
                     windSpeed: weather.wind.speed,
                     clouds: weather.clouds.all,
-                    weather: weather.weather[0].description
+                    weather: weather.weather[0].description,
+                    refreshTime: new Date(),
+                    provider: "OpenWeatherMap"
                     });
                 }
             }
@@ -43,7 +46,7 @@ router.get("/current", (req, res, next) => {
     });
 
 
-router.get("/forecast", (req, res, next) => {
+router.get("/forecast", cache(10), (req, res, next) => {
     const city = req.body.city;
     const url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
     console.log(url);
@@ -81,14 +84,16 @@ router.get("/forecast", (req, res, next) => {
 
             res.status(200).json({
                 location: weather.city.name,
-                forecast: forecastList
+                forecast: forecastList,
+                refreshTime: new Date(),
+                provider: "OpenWeatherMap"
                 });
             }
             }
         });
     });
 
-router.get("/history", (req, res, next) => {
+router.get("/history", cache(10), (req, res, next) => {
     const city = req.body.city;
     const countryCode = req.body.countryCode;
     currentTime = new Date().getTime();
@@ -125,7 +130,9 @@ router.get("/history", (req, res, next) => {
 
             res.status(200).json({
                 city_id: weather.city_id,
-                history: historyList
+                history: historyList,
+                refreshTime: new Date(),
+                provider: "OpenWeatherMap"
                 });
             }
             }
