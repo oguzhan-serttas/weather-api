@@ -88,4 +88,49 @@ router.get("/forecast", (req, res, next) => {
         });
     });
 
+router.get("/history", (req, res, next) => {
+    const city = req.body.city;
+    const countryCode = req.body.countryCode;
+    currentTime = new Date().getTime();
+    let lowerTime = Math.floor(new Date(currentTime - parseInt(req.body.upperLimit) * 60 * 60 * 1000).getTime() / 1000);
+    let upperTime = Math.floor(new Date(currentTime - parseInt(req.body.lowerLimit) * 60 * 60 * 1000).getTime() / 1000);
+    const url = `http://history.openweathermap.org/data/2.5/history/city?q=${city},${countryCode}&type=hours&start=${lowerTime}&end=${upperTime}&units=metric&appid=${apiKey}`;
+    console.log(url);
+    request(url, function (err, response, body) {
+        if(err){
+            res.status(500).json({
+                message: "Error retrieving weather data from OpenWeatherMap"
+                });
+        } else {
+            const weather = JSON.parse(body);
+            if(weather.city_id == undefined){
+                res.status(500).json({
+                    message: "No information ! You may have entered the wrong city name or country code."
+                    });
+            } else {
+            
+            var historyList = [];
+
+
+            for (var i = 0; i < weather.list.length; i++) {
+                historyList.push({weather: weather.list[i].weather[0].description,
+                temperature: weather.list[i].main.temp,
+                humidity: weather.list[i].main.humidity,
+                pressure: weather.list[i].main.pressure,
+                windSpeed: weather.list[i].wind.speed,
+                clouds: weather.list[i].clouds.all,
+                time: new Date(weather.list[i].dt * 1000)
+                });    
+            }
+
+            res.status(200).json({
+                city_id: weather.city_id,
+                history: historyList
+                });
+            }
+            }
+        });
+    });
+
+
 module.exports = router;
