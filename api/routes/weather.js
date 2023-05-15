@@ -5,8 +5,9 @@ const cache = require("../../routeCache");
 
 const apiKey = "a4b77319ccf64ed2b3885048c6ba4075";
 
+
 router.get("/current", cache(10), (req, res, next) => {
-    const city = req.body.city;
+    const city = req.query.city;
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
     request(url, function (err, response, body) {
         if(err){
@@ -16,7 +17,7 @@ router.get("/current", cache(10), (req, res, next) => {
         } else {
             const weather = JSON.parse(body);
             if(weather.main == undefined){
-                res.status(500).json({
+                res.status(404).json({
                     message: "No information ! You may have entered the wrong city name."
                     });
             } else {
@@ -47,9 +48,8 @@ router.get("/current", cache(10), (req, res, next) => {
 
 
 router.get("/forecast", cache(10), (req, res, next) => {
-    const city = req.body.city;
+    const city = req.query.city;
     const url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
-    console.log(url);
     request(url, function (err, response, body) {
         if(err){
             res.status(500).json({
@@ -58,15 +58,15 @@ router.get("/forecast", cache(10), (req, res, next) => {
         } else {
             const weather = JSON.parse(body);
             if(weather.city == undefined){
-                res.status(500).json({
+                res.status(404).json({
                     message: "No information ! You may have entered the wrong city name."
                     });
             } else {
         
             var forecastList = [];
             currentTime = new Date().getTime();
-            let upperLimit = new Date(currentTime + parseInt(req.body.upperLimit) * 60 * 60 * 1000).getTime();
-            let lowerLimit = new Date(currentTime + parseInt(req.body.lowerLimit) * 60 * 60 * 1000).getTime();
+            let upperLimit = new Date(currentTime + parseInt(req.query.upperHourLimit) * 60 * 60 * 1000).getTime();
+            let lowerLimit = new Date(currentTime + parseInt(req.query.lowerHourLimit) * 60 * 60 * 1000).getTime();
             
             for (var i = 0; i < weather.list.length; i++) {
                 var time = new Date(weather.list[i].dt * 1000).getTime();
@@ -94,13 +94,12 @@ router.get("/forecast", cache(10), (req, res, next) => {
     });
 
 router.get("/history", cache(10), (req, res, next) => {
-    const city = req.body.city;
-    const countryCode = req.body.countryCode;
+    const city = req.query.city;
+    const countryCode = req.query.countryCode;
     currentTime = new Date().getTime();
-    let lowerTime = Math.floor(new Date(currentTime - parseInt(req.body.upperLimit) * 60 * 60 * 1000).getTime() / 1000);
-    let upperTime = Math.floor(new Date(currentTime - parseInt(req.body.lowerLimit) * 60 * 60 * 1000).getTime() / 1000);
+    let lowerTime = Math.floor(new Date(currentTime - parseInt(req.query.upperHourLimit) * 60 * 60 * 1000).getTime() / 1000);
+    let upperTime = Math.floor(new Date(currentTime - parseInt(req.query.lowerHourLimit) * 60 * 60 * 1000).getTime() / 1000);
     const url = `http://history.openweathermap.org/data/2.5/history/city?q=${city},${countryCode}&type=hours&start=${lowerTime}&end=${upperTime}&units=metric&appid=${apiKey}`;
-    console.log(url);
     request(url, function (err, response, body) {
         if(err){
             res.status(500).json({
@@ -109,7 +108,7 @@ router.get("/history", cache(10), (req, res, next) => {
         } else {
             const weather = JSON.parse(body);
             if(weather.city_id == undefined){
-                res.status(500).json({
+                res.status(404).json({
                     message: "No information ! You may have entered the wrong city name or country code."
                     });
             } else {

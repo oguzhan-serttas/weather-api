@@ -1,0 +1,179 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Swagger weather API",
+        "description": "A sample API that uses a OpenWeatherMap",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/weather",
+    "tags": [
+        {
+            "name": "weather",
+            "description": "Everything about your weather"
+        }
+    ],
+    "paths": {
+        "/current": {
+            "get": {
+                "tags": [
+                    "weather"
+                ],
+                "summary": "Get current weather",
+                "description": "",
+                "operationId": "getCurrentWeather",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "description": "City name",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Invalid city supplied"
+                    },
+                    "500": {
+                        "description": "Error retrieving weather data from OpenWeatherMap"
+                    }
+                }   
+        }
+    },
+
+            "/forecast": {
+            "get": {
+                "tags": [
+                    "weather"
+                ],
+                "summary": "Get weather forecast",
+                "description": "",
+                "operationId": "getWeatherForecast",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "description": "City name",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "upperHourLimit",
+                        "description": "Forecast up to next upperHourLimit hours",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "integer"
+                        }
+                    },
+                    {
+                        "name": "lowerHourLimit",
+                        "description": "Forecast from lowerHourLimit hours later",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Invalid input supplied"
+                    },
+                    "500": {
+                        "description": "Error retrieving weather data from OpenWeatherMap"
+                    }
+                }
+            }
+    },
+            "/history": {
+            "get": {
+                "tags": [
+                    "weather"
+                ],
+                "summary": "Get weather history",
+                "description": "",
+                "operationId": "getWeatherHistory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "description": "City name",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "countryCode",
+                        "description": "Country code",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "upperHourLimit",
+                        "description": "Forecast from previous upperHourLimit hours",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "integer"
+                        }
+                    },
+                    {
+                        "name": "lowerHourLimit",
+                        "description": "Forecast up to previous lowerHourLimit hours",
+                        "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "integer"
+                        }
+                    }
+                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Invalid input supplied"
+                    },
+                    "500": {
+                        "description": "Error retrieving weather data from OpenWeatherMap"
+                    }
+                }
+            }
+        },
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"]
+ 
+    }
+}
+
