@@ -32,8 +32,8 @@ RESTful API for weather that gets data from OpenWeatherMap.
 | Parameter | Type     | Description                       |Parameter Type|
 | :-------- | :------- | :-------------------------------- |:------- |
 | `city`         | `string` | **Required**. City Name |query|
-| `upperHourLimit`         | `integer` | **Required**. Forecast from previous upperHourLimit hours | query|
-| `lowerHourLimit`         | `integer` | **Required**. Forecast up to previous lowerHourLimit hours | query|
+| `upperHourLimit`         | `integer` | **Required**. Weather history from previous upperHourLimit hours | query|
+| `lowerHourLimit`         | `integer` | **Required**. Weather history up to previous lowerHourLimit hours | query|
 | `countryCode`         | `string` | **Required**. Country Code |query|
 | `x-auth-token` | `string` | **Required**. Token |header|
 
