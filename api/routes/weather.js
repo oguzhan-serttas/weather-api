@@ -65,6 +65,8 @@ router.get("/current", checkAuth, cache(10), (req, res, next) => {
     });
 
 /*
+Forecasts weather from lowerHourLimit later to upperHourLimit later.
+
 GET /weather/forecast?city=cityName&upperHourLimit=upperHourLimit&lowerHourLimit=lowerHourLimit
 The query parameters are city, upperHourLimit and lowerHourLimit
 The request is authenticated using the checkAuth middleware
@@ -132,6 +134,8 @@ router.get("/forecast", checkAuth, cache(10), (req, res, next) => {
     });
 
 /*
+Gives weather history from upperHourLimit hours ago to lowerHourLimit hours ago.
+
 GET /weather/history?city=cityName&countryCode=countryCode&upperHourLimit=upperHourLimit&lowerHourLimit=lowerHourLimit
 The query parameters are city, countryCode, upperHourLimit and lowerHourLimit
 The request is authenticated using the checkAuth middleware
