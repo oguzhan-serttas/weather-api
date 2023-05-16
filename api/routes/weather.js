@@ -2,11 +2,29 @@ const express = require("express");
 const router = express.Router();
 const request = require("request");
 const cache = require("../../routeCache");
+const checkAuth = require("../../middleware/checkAuth");
 
 const apiKey = "a4b77319ccf64ed2b3885048c6ba4075";
 
-
-router.get("/current", cache(10), (req, res, next) => {
+/*
+GET /weather/current?city=cityName
+The query parameter is city
+The request is authenticated using the checkAuth middleware
+The response is cached for 10 minutes using the routeCache 
+The response is sent as JSON
+The response contains the following properties:
+message: A string containing the weather information
+location: The name of the city
+temperature: The temperature in degrees Celsius
+humidity: The humidity in percentage
+pressure: The pressure in hPa
+windSpeed: The wind speed in m/s
+clouds: The cloudiness in percentage
+weather: A string describing the weather
+refreshTime: The time when the weather information was retrieved
+provider: The name of the weather provider
+*/
+router.get("/current", checkAuth, cache(10), (req, res, next) => {
     const city = req.query.city;
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
     request(url, function (err, response, body) {
@@ -46,8 +64,28 @@ router.get("/current", cache(10), (req, res, next) => {
         });
     });
 
+/*
+GET /weather/forecast?city=cityName&upperHourLimit=upperHourLimit&lowerHourLimit=lowerHourLimit
+The query parameters are city, upperHourLimit and lowerHourLimit
+The request is authenticated using the checkAuth middleware
+The response is cached for 10 minutes using the routeCache
+The response is sent as JSON
+The response contains the following properties:
+location: The name of the city  
+forecast: An array of forecasts from lowerHourLimit later to upperHourLimit later.
+Containing the following properties:
+weather: A string describing the weather
+temperature: The temperature in degrees Celsius
+humidity: The humidity in percentage
+pressure: The pressure in hPa
+windSpeed: The wind speed in m/s
+clouds: The cloudiness in percentage
+time: The time when the weather information was retrieved
+refreshTime: The time when the weather information was retrieved
+provider: The name of the weather provider
+*/
 
-router.get("/forecast", cache(10), (req, res, next) => {
+router.get("/forecast", checkAuth, cache(10), (req, res, next) => {
     const city = req.query.city;
     const url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
     request(url, function (err, response, body) {
@@ -93,7 +131,27 @@ router.get("/forecast", cache(10), (req, res, next) => {
         });
     });
 
-router.get("/history", cache(10), (req, res, next) => {
+/*
+GET /weather/history?city=cityName&countryCode=countryCode&upperHourLimit=upperHourLimit&lowerHourLimit=lowerHourLimit
+The query parameters are city, countryCode, upperHourLimit and lowerHourLimit
+The request is authenticated using the checkAuth middleware
+The response is cached for 10 minutes using the routeCache
+The response is sent as JSON
+The response contains the following properties:
+city_id: The id of the city
+history: An array of weather history from upperHourLimit hours ago to lowerHourLimit hours ago.
+Containing the following properties:
+weather: A string describing the weather
+temperature: The temperature in degrees Celsius
+humidity: The humidity in percentage
+pressure: The pressure in hPa
+windSpeed: The wind speed in m/s
+clouds: The cloudiness in percentage
+time: The time when the weather information was retrieved
+refreshTime: The time when the weather information was retrieved
+provider: The name of the weather provider
+*/
+router.get("/history", checkAuth, cache(10), (req, res, next) => {
     const city = req.query.city;
     const countryCode = req.query.countryCode;
     currentTime = new Date().getTime();

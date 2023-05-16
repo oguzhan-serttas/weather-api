@@ -10,7 +10,7 @@
         }
     },
     "host": "localhost:3000",
-    "basePath": "/weather",
+    "basePath": "/",
     "tags": [
         {
             "name": "weather",
@@ -18,7 +18,7 @@
         }
     ],
     "paths": {
-        "/current": {
+        "/weather/current": {
             "get": {
                 "tags": [
                     "weather"
@@ -34,6 +34,15 @@
                         "name": "city",
                         "description": "City name",
                         "in": "query",
+                        "required": true,
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "x-auth-token",
+                        "description": " Authorization token",
+                        "in": "header",
                         "required": true,
                         "schema" : {
                             "type" : "string"
@@ -54,7 +63,7 @@
         }
     },
 
-            "/forecast": {
+        "/weather/forecast": {
             "get": {
                 "tags": [
                     "weather"
@@ -92,6 +101,15 @@
                         "schema" : {
                             "type" : "integer"
                         }
+                    },
+                    {
+                        "name": "x-auth-token",
+                        "description": " Authorization token",
+                        "in": "header",
+                        "required": true,
+                        "schema" : {
+                            "type" : "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -107,7 +125,7 @@
                 }
             }
     },
-            "/history": {
+        "/weather/history": {
             "get": {
                 "tags": [
                     "weather"
@@ -154,6 +172,15 @@
                         "schema" : {
                             "type" : "integer"
                         }
+                    },
+                    {
+                        "name": "x-auth-token",
+                        "description": " Authorization token",
+                        "in": "header",
+                        "required": true,
+                        "schema" : {
+                            "type" : "string"
+                        }
                     }
                     
                 ],
@@ -170,6 +197,88 @@
                 }
             }
         },
+        "/authentication/login": {
+            "post": {
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Login",
+                "description": "",
+                "operationId": "login",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "",
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "User already exists"
+                    }
+                }
+            }
+        },
+        "/authentication/signup": {
+            "post": {
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Signup",
+                "description": "",
+                "operationId": "signup",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "",
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid email or password supplied"
+                    }
+                }
+            }
+        },
+
     "schemes": ["http"],
     "consumes": ["application/json"],
     "produces": ["application/json"]
