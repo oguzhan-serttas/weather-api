@@ -3,6 +3,7 @@ const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
+const authenticationRoutes = require("./api/routes/authentication");
 const weatherRoutes = require("./api/routes/weather");
 const swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));   
 
+app.use("/authentication", authenticationRoutes);
 app.use("/weather", weatherRoutes);
 
 // error handling
