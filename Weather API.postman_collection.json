@@ -1,0 +1,380 @@
+{
+	"info": {
+		"_postman_id": "5278a61b-7803-41f9-8b37-c9de30d46655",
+		"name": "Weather API",
+		"description": "RESTful API for weather that gets data from OpenWeatherMap.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"oguzhan@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/authentication/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"authentication",
+						"signup"
+					]
+				},
+				"description": "Sign-up and get token for authentication.\n\nPOST /auth/signup\nThe request body contains the following properties:\nemail: The email of the user\npassword: The password of the user\nThe response is sent as JSON\nThe response contains the following properties:\ntoken: A JWT token"
+			},
+			"response": [
+				{
+					"name": "signup",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"oguzhan@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/authentication/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"authentication",
+								"signup"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MDA2fQ.eNG0-v9fPrSWpaMwEy6tyJCsmL2RJWaVdv5LZLMMsZk\"\n}"
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"oguzhan@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/authentication/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"authentication",
+						"login"
+					]
+				},
+				"description": "Login and get token\n\nPOST /auth/login\nThe request body contains the following properties:\nemail: The email of the user\npassword: The password of the user\nThe response is sent as JSON\nThe response contains the following properties:\ntoken: A JWT token"
+			},
+			"response": [
+				{
+					"name": "login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"oguzhan@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/authentication/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MzMxfQ.nhNirQgTsLMe_nUqBs52GergNBwBsVY5JZ0m7Acmev8\"\n}"
+				}
+			]
+		},
+		{
+			"name": "current weather",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MzMxfQ.nhNirQgTsLMe_nUqBs52GergNBwBsVY5JZ0m7Acmev8",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/weather/current?city=Sarajevo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"weather",
+						"current"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Sarajevo"
+						}
+					]
+				},
+				"description": "GET /weather/current?city=cityName\nThe query parameter is city\nThe request is authenticated using the checkAuth middleware\nThe response is cached for 10 minutes using the routeCache \nThe response is sent as JSON\nThe response contains the following properties:\nmessage: A string containing the weather information\nlocation: The name of the city\ntemperature: The temperature in degrees Celsius\nhumidity: The humidity in percentage\npressure: The pressure in hPa\nwindSpeed: The wind speed in m/s\nclouds: The cloudiness in percentage\nweather: A string describing the weather\nrefreshTime: The time when the weather information was retrieved\nprovider: The name of the weather provider"
+			},
+			"response": [
+				{
+					"name": "current weather",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MzMxfQ.nhNirQgTsLMe_nUqBs52GergNBwBsVY5JZ0m7Acmev8",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/weather/current?city=Sarajevo",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"current"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Sarajevo"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"message\": \"Location : Sarajevo \\n                Temperature : 11.62 degrees \\n                Humidity : %100 \\n                Pressure : 1006 hPa\\n                Wind Speed : 0.51 m/s\\n                Clouds : %100 \\n                Weather : light rain \",\r\n    \"location\": \"Sarajevo\",\r\n    \"temperature\": 11.62,\r\n    \"humidity\": 100,\r\n    \"pressure\": 1006,\r\n    \"windSpeed\": 0.51,\r\n    \"clouds\": 100,\r\n    \"weather\": \"light rain\",\r\n    \"refreshTime\": \"2023-05-16T02:52:08.665Z\",\r\n    \"provider\": \"OpenWeatherMap\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "weather forecast",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MzMxfQ.nhNirQgTsLMe_nUqBs52GergNBwBsVY5JZ0m7Acmev8",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/weather/forecast?lowerHourLimit=5&upperHourLimit=30&city=Istanbul",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"weather",
+						"forecast"
+					],
+					"query": [
+						{
+							"key": "lowerHourLimit",
+							"value": "5"
+						},
+						{
+							"key": "upperHourLimit",
+							"value": "30"
+						},
+						{
+							"key": "city",
+							"value": "Istanbul"
+						}
+					]
+				},
+				"description": "Forecasts weather from lowerHourLimit later to upperHourLimit later.\n\nGET /weather/forecast?city=cityName&upperHourLimit=upperHourLimit&lowerHourLimit=lowerHourLimit\nThe query parameters are city, upperHourLimit and lowerHourLimit\nThe request is authenticated using the checkAuth middleware\nThe response is cached for 10 minutes using the routeCache\nThe response is sent as JSON\nThe response contains the following properties:\nlocation: The name of the city  \nforecast: An array of forecasts from lowerHourLimit later to upperHourLimit later.\nContaining the following properties:\nweather: A string describing the weather\ntemperature: The temperature in degrees Celsius\nhumidity: The humidity in percentage\npressure: The pressure in hPa\nwindSpeed: The wind speed in m/s\nclouds: The cloudiness in percentage\ntime: The time when the weather information was retrieved\nrefreshTime: The time when the weather information was retrieved\nprovider: The name of the weather provider"
+			},
+			"response": [
+				{
+					"name": "weather forecast",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MzMxfQ.nhNirQgTsLMe_nUqBs52GergNBwBsVY5JZ0m7Acmev8",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/weather/forecast?lowerHourLimit=5&upperHourLimit=30&city=Istanbul",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"forecast"
+							],
+							"query": [
+								{
+									"key": "lowerHourLimit",
+									"value": "5"
+								},
+								{
+									"key": "upperHourLimit",
+									"value": "30"
+								},
+								{
+									"key": "city",
+									"value": "Istanbul"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"location\": \"Istanbul\",\n    \"forecast\": [\n        {\n            \"weather\": \"scattered clouds\",\n            \"temperature\": 21.01,\n            \"humidity\": 55,\n            \"pressure\": 1012,\n            \"windSpeed\": 3.86,\n            \"clouds\": 36,\n            \"time\": \"2023-05-16 09:00:00\"\n        },\n        {\n            \"weather\": \"broken clouds\",\n            \"temperature\": 24.74,\n            \"humidity\": 49,\n            \"pressure\": 1010,\n            \"windSpeed\": 5.15,\n            \"clouds\": 77,\n            \"time\": \"2023-05-16 12:00:00\"\n        },\n        {\n            \"weather\": \"overcast clouds\",\n            \"temperature\": 21.83,\n            \"humidity\": 54,\n            \"pressure\": 1008,\n            \"windSpeed\": 6.05,\n            \"clouds\": 100,\n            \"time\": \"2023-05-16 15:00:00\"\n        },\n        {\n            \"weather\": \"light rain\",\n            \"temperature\": 17.71,\n            \"humidity\": 77,\n            \"pressure\": 1010,\n            \"windSpeed\": 3.74,\n            \"clouds\": 100,\n            \"time\": \"2023-05-16 18:00:00\"\n        },\n        {\n            \"weather\": \"light rain\",\n            \"temperature\": 16.52,\n            \"humidity\": 78,\n            \"pressure\": 1010,\n            \"windSpeed\": 1.96,\n            \"clouds\": 100,\n            \"time\": \"2023-05-16 21:00:00\"\n        },\n        {\n            \"weather\": \"light rain\",\n            \"temperature\": 15.84,\n            \"humidity\": 93,\n            \"pressure\": 1010,\n            \"windSpeed\": 4.41,\n            \"clouds\": 100,\n            \"time\": \"2023-05-17 00:00:00\"\n        },\n        {\n            \"weather\": \"light rain\",\n            \"temperature\": 15.83,\n            \"humidity\": 95,\n            \"pressure\": 1008,\n            \"windSpeed\": 1.48,\n            \"clouds\": 100,\n            \"time\": \"2023-05-17 03:00:00\"\n        },\n        {\n            \"weather\": \"light rain\",\n            \"temperature\": 15.91,\n            \"humidity\": 86,\n            \"pressure\": 1009,\n            \"windSpeed\": 3.06,\n            \"clouds\": 100,\n            \"time\": \"2023-05-17 06:00:00\"\n        }\n    ],\n    \"refreshTime\": \"2023-05-16T02:57:12.315Z\",\n    \"provider\": \"OpenWeatherMap\"\n}"
+				}
+			]
+		},
+		{
+			"name": "weather history",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MzMxfQ.nhNirQgTsLMe_nUqBs52GergNBwBsVY5JZ0m7Acmev8",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/weather/history?lowerHourLimit=10&upperHourLimit=20&city=Istanbul&countryCode=TR",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"weather",
+						"history"
+					],
+					"query": [
+						{
+							"key": "lowerHourLimit",
+							"value": "10"
+						},
+						{
+							"key": "upperHourLimit",
+							"value": "20"
+						},
+						{
+							"key": "city",
+							"value": "Istanbul"
+						},
+						{
+							"key": "countryCode",
+							"value": "TR"
+						}
+					]
+				},
+				"description": "Gives weather history from upperHourLimit hours ago to lowerHourLimit hours ago.\n\n\nGET /weather/history?city=cityName&countryCode=countryCode&upperHourLimit=upperHourLimit&lowerHourLimit=lowerHourLimit\nThe query parameters are city, countryCode, upperHourLimit and lowerHourLimit\nThe request is authenticated using the checkAuth middleware\nThe response is cached for 10 minutes using the routeCache\nThe response is sent as JSON\nThe response contains the following properties:\ncity_id: The id of the city\nhistory: An array of weather history from upperHourLimit hours ago to lowerHourLimit hours ago.\nContaining the following properties:\nweather: A string describing the weather\ntemperature: The temperature in degrees Celsius\nhumidity: The humidity in percentage\npressure: The pressure in hPa\nwindSpeed: The wind speed in m/s\nclouds: The cloudiness in percentage\ntime: The time when the weather information was retrieved\nrefreshTime: The time when the weather information was retrieved\nprovider: The name of the weather provider"
+			},
+			"response": [
+				{
+					"name": "weather history",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ndXpoYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MjA1MzMxfQ.nhNirQgTsLMe_nUqBs52GergNBwBsVY5JZ0m7Acmev8",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/weather/history?lowerHourLimit=10&upperHourLimit=20&city=Istanbul&countryCode=TR",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"history"
+							],
+							"query": [
+								{
+									"key": "lowerHourLimit",
+									"value": "10"
+								},
+								{
+									"key": "upperHourLimit",
+									"value": "20"
+								},
+								{
+									"key": "city",
+									"value": "Istanbul"
+								},
+								{
+									"key": "countryCode",
+									"value": "TR"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"city_id\": 745044,\n    \"history\": [\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 20.08,\n            \"humidity\": 49,\n            \"pressure\": 1016,\n            \"windSpeed\": 2.06,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T08:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 21.35,\n            \"humidity\": 46,\n            \"pressure\": 1016,\n            \"windSpeed\": 2.06,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T09:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 22.26,\n            \"humidity\": 37,\n            \"pressure\": 1016,\n            \"windSpeed\": 2.06,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T10:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 24.26,\n            \"humidity\": 29,\n            \"pressure\": 1015,\n            \"windSpeed\": 2.06,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T11:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 23.41,\n            \"humidity\": 43,\n            \"pressure\": 1015,\n            \"windSpeed\": 2.06,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T12:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 23.41,\n            \"humidity\": 46,\n            \"pressure\": 1014,\n            \"windSpeed\": 2.57,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T13:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 24.17,\n            \"humidity\": 43,\n            \"pressure\": 1014,\n            \"windSpeed\": 1.54,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T14:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 24.99,\n            \"humidity\": 41,\n            \"pressure\": 1014,\n            \"windSpeed\": 3.09,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T15:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 23.99,\n            \"humidity\": 38,\n            \"pressure\": 1014,\n            \"windSpeed\": 4.12,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T16:00:00.000Z\"\n        },\n        {\n            \"weather\": \"clear sky\",\n            \"temperature\": 22.08,\n            \"humidity\": 35,\n            \"pressure\": 1014,\n            \"windSpeed\": 5.14,\n            \"clouds\": 0,\n            \"time\": \"2023-05-15T17:00:00.000Z\"\n        }\n    ],\n    \"refreshTime\": \"2023-05-16T03:00:18.712Z\",\n    \"provider\": \"OpenWeatherMap\"\n}"
+				}
+			]
+		}
+	]
+}
