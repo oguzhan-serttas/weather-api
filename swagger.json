@@ -157,7 +157,7 @@
                     },
                     {
                         "name": "upperHourLimit",
-                        "description": "Forecast from previous upperHourLimit hours",
+                        "description": "Weather history from previous upperHourLimit hours",
                         "in": "query",
                         "required": true,
                         "schema" : {
@@ -166,7 +166,7 @@
                     },
                     {
                         "name": "lowerHourLimit",
-                        "description": "Forecast up to previous lowerHourLimit hours",
+                        "description": "Weather history up to previous lowerHourLimit hours",
                         "in": "query",
                         "required": true,
                         "schema" : {
